@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Saurav Kumar — React Native Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+${SHARED_CSS}
+
+/* HERO */
+#hero {
+  min-height: 100svh; display: flex; flex-direction: column; justify-content: center;
+  padding: 0 max(24px,5%); padding-top: calc(var(--nav-h) + 2rem);
+  position: relative; overflow: hidden;
+}
+.hero-orb {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  filter: blur(80px);
+}
+.orb1 { width: 600px; height: 500px; background: rgba(108,99,255,.12); top: -10%; left: 30%; animation: orb1 8s ease-in-out infinite alternate; }
+.orb2 { width: 400px; height: 400px; background: rgba(56,189,248,.07); bottom: 10%; right: -5%; animation: orb2 10s ease-in-out infinite alternate; }
+@keyframes orb1 { from{transform:translate(0,0)} to{transform:translate(-60px,40px)} }
+@keyframes orb2 { from{transform:translate(0,0)} to{transform:translate(40px,-60px)} }
+.hero-inner { position: relative; z-index: 1; max-width: 900px; }
+.h-eyebrow {
+  font-family: var(--font-m); font-size: .72rem; color: var(--accent);
+  letter-spacing: .18em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(108,99,255,.08); border: 1px solid rgba(108,99,255,.2);
+  padding: 6px 16px; border-radius: 100px; margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp .6s .15s var(--ease) forwards;
+}
+.h-avail { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+.h-name {
+  font-family: var(--font-d); font-size: clamp(3.2rem,9vw,7rem); font-weight: 700;
+  line-height: 1.0; letter-spacing: -.035em; margin-bottom: .4rem;
+  opacity: 0; animation: fadeUp .6s .3s var(--ease) forwards;
+}
+.h-name .grad {
+  background: linear-gradient(135deg, var(--accent2) 0%, var(--accent3) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.h-role {
+  font-family: var(--font-d); font-size: clamp(1rem,2.5vw,1.4rem);
+  color: var(--muted); font-weight: 400; margin-bottom: 2rem;
+  opacity: 0; animation: fadeUp .6s .45s var(--ease) forwards;
+}
+.h-desc {
+  max-width: 560px; font-size: 1rem; color: var(--muted); line-height: 1.85; margin-bottom: 2.5rem;
+  opacity: 0; animation: fadeUp .6s .6s var(--ease) forwards;
+}
+.h-actions { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp .6s .75s var(--ease) forwards; }
+.h-stats {
+  display: flex; gap: 3rem; flex-wrap: wrap;
+  padding-top: 2rem; margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  opacity: 0; animation: fadeUp .6s .9s var(--ease) forwards;
+}
+.stat-n { font-family: var(--font-d); font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.stat-n span { color: var(--accent2); }
+.stat-l { font-family: var(--font-m); font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-top: 4px; }
+.tech-float {
+  position: absolute; right: max(24px,5%); top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px;
+  opacity: 0; animation: fadeLeft .7s 1s var(--ease) forwards;
+}
+.tpill {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: 40px;
+  font-family: var(--font-m); font-size: .72rem; color: var(--muted);
+  white-space: nowrap; transition: all .3s var(--ease);
+}
+.tpill:hover { border-color: var(--accent); color: var(--text); transform: translateX(-6px); }
+.tpill .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+.scroll-cue {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fadeUp .6s 1.2s var(--ease) forwards;
+}
+.scroll-cue span { font-family: var(--font-m); font-size: .6rem; color: var(--muted); letter-spacing: .15em; text-transform: uppercase; }
+.scroll-mouse { width: 20px; height: 32px; border: 1.5px solid var(--border); border-radius: 10px; position: relative; }
+.scroll-mouse::after { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 3px; height: 6px; background: var(--accent); border-radius: 2px; animation: scrollDot 2s ease-in-out infinite; }
+@keyframes scrollDot { 0%{top:6px;opacity:1} 100%{top:18px;opacity:0} }
+
+/* SKILLS MARQUEE */
+.marquee-wrap { overflow: hidden; padding: 3rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+.marquee-track { display: flex; gap: 2rem; animation: marquee 28s linear infinite; width: max-content; }
+.marquee-track:hover { animation-play-state: paused; }
+.m-item { display: flex; align-items: center; gap: 10px; font-family: var(--font-m); font-size: .78rem; color: var(--muted); white-space: nowrap; padding: 8px 20px; border: 1px solid var(--border); border-radius: 40px; background: var(--card); }
+.m-item .d { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ABOUT STRIP */
+#about { background: var(--surface); }
+.about-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 5rem; align-items: center; }
+.about-body p { color: var(--muted); line-height: 1.9; margin-bottom: 1.1rem; }
+.about-body p strong { color: var(--text); font-weight: 600; }
+.about-card { background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; }
+.sk-group { margin-bottom: 1.5rem; }
+.sk-group:last-child { margin-bottom: 0; }
+.sk-label { font-family: var(--font-m); font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-bottom: .6rem; }
+
+/* QUICK WORK */
+#work { background: var(--bg); }
+.work-row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 2rem; align-items: center; padding: 2.5rem 0; border-bottom: 1px solid var(--border); transition: all .3s var(--ease); }
+.work-row:first-child { border-top: 1px solid var(--border); }
+.work-row:hover .work-num { color: var(--accent); }
+.work-num { font-family: var(--font-m); font-size: .7rem; color: var(--muted); margin-bottom: .5rem; }
+.work-name { font-family: var(--font-d); font-size: 1.3rem; font-weight: 700; margin-bottom: .5rem; }
+.work-type { font-family: var(--font-m); font-size: .7rem; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; }
+.work-desc { color: var(--muted); font-size: .9rem; line-height: 1.8; }
+.work-arrow { display: flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--accent2); margin-top: 1rem; opacity: 0; transition: opacity .3s; }
+.work-row:hover .work-arrow { opacity: 1; }
+
+/* CTA STRIP */
+.cta-strip {
+  background: linear-gradient(135deg, rgba(108,99,255,.08) 0%, rgba(56,189,248,.05) 100%);
+  border: 1px solid rgba(108,99,255,.2); border-radius: 24px; margin: 0 max(24px,5%);
+  padding: 4rem max(24px,5%); text-align: center;
+}
+.cta-strip h2 { font-family: var(--font-d); font-size: clamp(1.6rem,3.5vw,2.4rem); font-weight: 700; letter-spacing: -.02em; margin-bottom: 1rem; }
+.cta-strip p { color: var(--muted); max-width: 480px; margin: 0 auto 2rem; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeLeft { from{opacity:0;transform:translateX(24px)} to{opacity:1;transform:translateX(0)} }
+
+@media (max-width: 900px) { .tech-float { display: none; } .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+@media (max-width: 640px) { .h-name { font-size: clamp(2.4rem,12vw,4rem); } .h-stats { gap: 1.5rem; } .cta-strip { margin: 0; border-radius: 0; border-left: none; border-right: none; } .work-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page="index">
+${NAV_HTML}
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-inner">
+    <div class="h-eyebrow"><span class="h-avail"></span>Open to new opportunities</div>
+    <h1 class="h-name">Saurav<br/><span class="grad">Kumar</span></h1>
+    <p class="h-role">React Native Developer &nbsp;·&nbsp; Patna, India</p>
+    <p class="h-desc">Building cross-platform mobile apps that feel native, perform fast, and scale to production. 2+ years shipping Android &amp; iOS with React Native &amp; Expo.</p>
+    <div class="h-actions">
+      <a href="projects.html" class="btn btn-primary">View My Work</a>
+      <a href="contact.html" class="btn btn-outline">Let's Talk</a>
+      <a href="https://github.com/sauravkumar" target="_blank" class="btn btn-outline">GitHub ↗</a>
+    </div>
+    <div class="h-stats">
+      <div><div class="stat-n">2<span>+</span></div><div class="stat-l">Years Experience</div></div>
+      <div><div class="stat-n">10<span>+</span></div><div class="stat-l">Apps Shipped</div></div>
+      <div><div class="stat-n">60<span>fps</span></div><div class="stat-l">Perf Target</div></div>
+      <div><div class="stat-n">30<span>%</span></div><div class="stat-l">Bundle Optimized</div></div>
+    </div>
+  </div>
+  <div class="tech-float">
+    <div class="tpill"><span class="d"></span>React Native</div>
+    <div class="tpill"><span class="d"></span>Expo SDK</div>
+    <div class="tpill"><span class="d"></span>Redux / Zustand</div>
+    <div class="tpill"><span class="d"></span>Firebase</div>
+    <div class="tpill"><span class="d"></span>TypeScript</div>
+    <div class="tpill"><span class="d"></span>REST APIs</div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-mouse"></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="m-item"><span class="d"></span>React Native</div><div class="m-item"><span class="d"></span>Expo</div><div class="m-item"><span class="d"></span>Redux</div><div class="m-item"><span class="d"></span>Zustand</div><div class="m-item"><span class="d"></span>Firebase</div><div class="m-item"><span class="d"></span>TypeScript</div><div class="m-item"><span class="d"></span>JavaScript</div><div class="m-item"><span class="d"></span>Axios</div><div class="m-item"><span class="d"></span>REST API</div><div class="m-item"><span class="d"></span>Android</div><div class="m-item"><span class="d"></span>iOS</div><div class="m-item"><span class="d"></span>Tailwind CSS</div><div class="m-item"><span class="d"></span>Git</div><div class="m-item"><span class="d"></span>Android Studio</div>
+    <div class="m-item"><span class="d"></span>React Native</div><div class="m-item"><span class="d"></span>Expo</div><div class="m-item"><span class="d"></span>Redux</div><div class="m-item"><span class="d"></span>Zustand</div><div class="m-item"><span class="d"></span>Firebase</div><div class="m-item"><span class="d"></span>TypeScript</div><div class="m-item"><span class="d"></span>JavaScript</div><div class="m-item"><span class="d"></span>Axios</div><div class="m-item"><span class="d"></span>REST API</div><div class="m-item"><span class="d"></span>Android</div><div class="m-item"><span class="d"></span>iOS</div><div class="m-item"><span class="d"></span>Tailwind CSS</div><div class="m-item"><span class="d"></span>Git</div><div class="m-item"><span class="d"></span>Android Studio</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <div class="eyebrow">About me</div>
+        <h2 class="section-title" style="margin-bottom:1.5rem">From idea to App Store,<br/>I own the full process.</h2>
+        <p>I'm <strong>Saurav Kumar</strong>, a mobile developer who builds production-ready React Native apps for Android and iOS from a single codebase. I've shipped everything from matrimonial platforms with 80+ screens to fintech apps with biometric payments.</p>
+        <p>My focus is on <strong>performance, clean architecture, and developer experience</strong> — 60fps rendering, lean bundle sizes, and state management patterns that scale.</p>
+        <p><strong>B.Tech Computer Science</strong>, Guru Gobind Singh Indraprastha University · CGPA 8.03</p>
+        <br/>
+        <a href="experience.html" class="btn btn-outline">Full Experience →</a>
+      </div>
+      <div class="about-card reveal">
+        <div class="sk-group"><div class="sk-label">Mobile</div><div class="tags"><span class="tag">React Native</span><span class="tag">Expo</span><span class="tag">Android</span><span class="tag">iOS</span><span class="tag">APK/AAB</span></div></div>
+        <div class="sk-group"><div class="sk-label">State &amp; Data</div><div class="tags"><span class="tag">Redux</span><span class="tag">Zustand</span><span class="tag">Context API</span><span class="tag">Axios</span></div></div>
+        <div class="sk-group"><div class="sk-label">Backend &amp; Services</div><div class="tags"><span class="tag">Firebase</span><span class="tag">FCM Push</span><span class="tag">Analytics</span><span class="tag">Retrofit</span></div></div>
+        <div class="sk-group"><div class="sk-label">Languages &amp; Tools</div><div class="tags"><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">Java</span><span class="tag">Tailwind CSS</span><span class="tag">Git</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED WORK -->
+<section id="work">
+  <div class="section-wrap">
+    <div class="eyebrow reveal">Selected Work</div>
+    <h2 class="section-title reveal">Things I've built</h2>
+    <div class="work-row reveal">
+      <div><div class="work-num">01</div><div class="work-name">PayZark</div><div class="work-type">Fintech · Mobile App</div></div>
+      <div><p class="work-desc">Comprehensive fintech app with AEPS, DMT, biometric auth, and real-time transaction tracking.</p><a href="projects.html" class="work-arrow">View project →</a></div>
+    </div>
+    <div class="work-row reveal">
+      <div><div class="work-num">02</div><div class="work-name">Matrimonial App</div><div class="work-type">Social · 80+ Screens</div></div>
+      <div><p class="work-desc">Built from ground up at CSI — reels, chat, video uploads, 60fps, 30% bundle optimization.</p><a href="projects.html" class="work-arrow">View project →</a></div>
+    </div>
+    <div class="work-row reveal">
+      <div><div class="work-num">03</div><div class="work-name">Marketplace E-Commerce</div><div class="work-type">E-Commerce · Full-Stack</div></div>
+      <div><p class="work-desc">Full shopping app — product catalog, cart, advanced filters, and complete checkout flow.</p><a href="projects.html" class="work-arrow">View project →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="section-wrap" style="padding-top:0">
+  <div class="cta-strip reveal">
+    <h2>Let's build something great.</h2>
+    <p>Open to freelance projects, full-time roles, and interesting collaborations.</p>
+    <div class="cta-actions">
+      <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+      <a href="projects.html" class="btn btn-outline">See All Projects</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2024 <a href="index.html">Saurav Kumar</a> · Patna, India</p>
+  <nav class="foot-links">
+    <a href="experience.html">Experience</a>
+    <a href="projects.html">Projects</a>
+    <a href="articles.html">Articles</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</footer>
+<script>
+${NAV_JS}
+</script>
+</body></html>
